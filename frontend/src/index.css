@@ -1,0 +1,284 @@
+:root {
+  --night-bg: #070a13;
+  --night-card: #0d1527;
+  --night-card-hover: #131f38;
+  --night-border: rgba(255, 255, 255, 0.08);
+  --night-border-hover: rgba(139, 92, 246, 0.35);
+  
+  --purple-primary: #8b5cf6;
+  --purple-dark: #6d28d9;
+  --cyan-primary: #06b6d4;
+  --cyan-dark: #0891b2;
+  
+  --neon-green: #10b981;
+  --neon-red: #f43f5e;
+  --neon-amber: #f59e0b;
+  
+  --text-muted: #94a3b8;
+  --text-light: #f8fafc;
+  --font-main: 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  background-color: var(--night-bg);
+  color: var(--text-light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+/* Background Gradients */
+.bg-night-black {
+  background-color: var(--night-bg) !important;
+}
+
+.bg-night-card {
+  background-color: var(--night-card) !important;
+}
+
+.night-gradient-bg {
+  background: radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.12) 0%, transparent 45%),
+              radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.10) 0%, transparent 40%),
+              var(--night-bg);
+}
+
+.hero-glow {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 350px;
+  background: radial-gradient(ellipse, rgba(139, 92, 246, 0.25), transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Cards & Glassmorphism */
+.glass-card {
+  background: rgba(13, 21, 39, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--night-border);
+  border-radius: 16px;
+  transition: all 0.25s ease;
+}
+
+.glass-card:hover {
+  border-color: var(--night-border-hover);
+  box-shadow: 0 12px 30px -10px rgba(139, 92, 246, 0.2);
+  transform: translateY(-2px);
+}
+
+.glass-card-static {
+  background: rgba(13, 21, 39, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--night-border);
+  border-radius: 16px;
+}
+
+/* Neon buttons */
+.btn-night-primary {
+  background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark));
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 10px 22px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+}
+
+.btn-night-primary:hover {
+  background: linear-gradient(135deg, #9d6fff, #7c3aed);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+}
+
+.btn-night-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f1f5f9;
+  border: 1px solid var(--night-border);
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+}
+
+.btn-night-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-night-cyan {
+  background: linear-gradient(135deg, var(--cyan-primary), var(--cyan-dark));
+  color: #041017;
+  border: none;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
+}
+
+.btn-night-cyan:hover {
+  background: linear-gradient(135deg, #22d3ee, #0891b2);
+  color: #041017;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.45);
+}
+
+/* Status Badges */
+.badge-open {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge-open::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse-dot 2s infinite;
+}
+
+.badge-closed {
+  background: rgba(244, 63, 94, 0.15);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge-closed::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background-color: #f43f5e;
+  border-radius: 50%;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* Form Controls */
+.form-night {
+  background-color: rgba(7, 10, 19, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #f8fafc !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  transition: all 0.2s ease;
+}
+
+.form-night:focus {
+  background-color: rgba(10, 15, 30, 0.95) !important;
+  border-color: var(--purple-primary) !important;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25) !important;
+  color: #ffffff !important;
+}
+
+.form-night::placeholder {
+  color: #64748b !important;
+}
+
+/* Navbar */
+.navbar-night {
+  background: rgba(7, 10, 19, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--night-border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-link-night {
+  color: #94a3b8;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.nav-link-night:hover, .nav-link-night.active {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070a13;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Pill count */
+.cart-badge {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  color: #041017;
+  font-weight: 800;
+  font-size: 0.75rem;
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+
+/* Price Highlight */
+.price-tag {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(135deg, #a78bfa, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,29 @@
+# Git Ignore for NightDrop Project
+
+# Node & Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Java & Backend
+backend/target/
+backend/.mvn/
+backend/*.iml
+backend/.idea/
+backend/.vscode/
+backend/.classpath
+backend/.project
+backend/.settings/
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment Credentials
+*.env
+!.env.example
