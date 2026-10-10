@@ -10,7 +10,7 @@ RUN apk add --no-cache maven && \
 # Run stage with lightweight JRE
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY --from=builder /app/target/nightdrop-backend-1.0.0.jar app.jar
+COPY --from=builder /app/target/*.jar app.jar
 
 ENV PORT=8080
 EXPOSE 8080
