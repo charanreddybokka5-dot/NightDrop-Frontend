@@ -58,9 +58,10 @@ const StoreOwnerDashboard = () => {
       setLoading(true);
       setError(null);
       const res = await api.get('/api/stores/owner/my');
-      setStores(res.data);
-      if (res.data.length > 0) {
-        const store = res.data[0];
+      const storeList = Array.isArray(res.data) ? res.data : [];
+      setStores(storeList);
+      if (storeList.length > 0) {
+        const store = storeList[0];
         setSelectedStore(store);
         fetchStoreData(store.id);
       } else {
@@ -68,6 +69,7 @@ const StoreOwnerDashboard = () => {
       }
     } catch (err) {
       console.error('Failed to load owner stores', err);
+      setStores([]);
       setError('Failed to load store profile.');
       setLoading(false);
     }
@@ -76,13 +78,15 @@ const StoreOwnerDashboard = () => {
   const fetchStoreData = async (storeId) => {
     try {
       const [prodRes, orderRes] = await Promise.all([
-        api.get(`/api/products/store/${storeId}`),
-        api.get(`/api/orders/store/${storeId}`)
+        api.get(`/api/products/store/${storeId}`).catch(() => ({ data: [] })),
+        api.get(`/api/orders/store/${storeId}`).catch(() => ({ data: [] }))
       ]);
-      setProducts(prodRes.data);
-      setOrders(orderRes.data);
+      setProducts(Array.isArray(prodRes.data) ? prodRes.data : []);
+      setOrders(Array.isArray(orderRes.data) ? orderRes.data : []);
     } catch (err) {
       console.error('Failed to load store products/orders', err);
+      setProducts([]);
+      setOrders([]);
     } finally {
       setLoading(false);
     }

@@ -46,9 +46,10 @@ const Products = () => {
         url = `/api/products/category/${selectedCategory}`;
       }
       const res = await api.get(url);
-      setProducts(res.data);
+      setProducts(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error('Failed to load products', err);
+      setProducts([]);
       setError('Failed to fetch midnight products. Please try again.');
     } finally {
       setLoading(false);
@@ -79,12 +80,14 @@ const Products = () => {
     }
   };
 
+  const productList = Array.isArray(products) ? products : [];
+
   // Filter and Sort in-memory
-  const filteredProducts = products.filter((p) => {
+  const filteredProducts = productList.filter((p) => {
     const matchesSearch =
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.storeName?.toLowerCase().includes(searchQuery.toLowerCase());
+      (p.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (p.description || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (p.storeName || '').toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearch;
   });
 

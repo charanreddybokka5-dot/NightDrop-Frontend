@@ -44,14 +44,22 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const [storesRes, productsRes] = await Promise.all([
-          api.get('/api/stores'),
-          api.get('/api/products')
+          api.get('/api/stores').catch((err) => {
+            console.warn('Stores fetch notice:', err?.message);
+            return { data: [] };
+          }),
+          api.get('/api/products').catch((err) => {
+            console.warn('Products fetch notice:', err?.message);
+            return { data: [] };
+          })
         ]);
-        setStores(storesRes.data);
-        if (storesRes.data.length > 0 && storesRes.data[0].currentServerTime) {
-          setServerTime(storesRes.data[0].currentServerTime);
+        const validStores = Array.isArray(storesRes.data) ? storesRes.data : [];
+        const validProducts = Array.isArray(productsRes.data) ? productsRes.data : [];
+        setStores(validStores);
+        if (validStores.length > 0 && validStores[0]?.currentServerTime) {
+          setServerTime(validStores[0].currentServerTime);
         }
-        setProducts(productsRes.data.slice(0, 8)); // Top 8 items
+        setProducts(validProducts.slice(0, 8)); // Top 8 items
       } catch (err) {
         console.error('Failed to load landing page data', err);
       } finally {
@@ -68,7 +76,7 @@ const Home = () => {
     }
   };
 
-  const openStores = stores.filter((s) => s.isOpen);
+  const openStores = Array.isArray(stores) ? stores.filter((s) => s.isOpen) : [];
 
   return (
     <div className="night-gradient-bg pb-5">
@@ -282,7 +290,7 @@ const Home = () => {
         </div>
 
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-          {products.map((p) => (
+          {(Array.isArray(products) ? products : []).map((p) => (
             <div className="col" key={p.id}>
               <div className="glass-card h-100 p-3 d-flex flex-column">
                 <div className="position-relative mb-3">

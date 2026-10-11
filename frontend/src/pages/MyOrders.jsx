@@ -28,9 +28,10 @@ const MyOrders = () => {
       setLoading(true);
       setError(null);
       const res = await api.get('/api/orders/my');
-      setOrders(res.data);
+      setOrders(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error('Failed to load orders', err);
+      setOrders([]);
       setError('Unable to load your orders.');
     } finally {
       setLoading(false);

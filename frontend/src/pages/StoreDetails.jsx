@@ -32,9 +32,10 @@ const StoreDetails = () => {
         api.get(`/api/products/store/${id}`)
       ]);
       setStore(storeRes.data);
-      setProducts(productsRes.data);
+      setProducts(Array.isArray(productsRes.data) ? productsRes.data : []);
     } catch (err) {
       console.error('Failed to load store details', err);
+      setProducts([]);
       setError('Could not find store details. It may be invalid or disabled.');
     } finally {
       setLoading(false);
@@ -77,14 +78,16 @@ const StoreDetails = () => {
     );
   }
 
-  // Filter categories present in this store
-  const availableCategories = ['ALL', ...new Set(products.map((p) => p.category))];
+  const productList = Array.isArray(products) ? products : [];
 
-  const filteredProducts = products.filter((p) => {
+  // Filter categories present in this store
+  const availableCategories = ['ALL', ...new Set(productList.map((p) => p.category))];
+
+  const filteredProducts = productList.filter((p) => {
     const matchesCat = selectedCategory === 'ALL' || p.category === selectedCategory;
     const matchesSearch =
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description?.toLowerCase().includes(searchQuery.toLowerCase());
+      (p.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (p.description || '').toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCat && matchesSearch;
   });
 

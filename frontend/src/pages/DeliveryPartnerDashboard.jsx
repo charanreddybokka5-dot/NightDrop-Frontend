@@ -31,10 +31,12 @@ const DeliveryPartnerDashboard = () => {
         api.get('/api/orders/available-deliveries').catch(() => ({ data: [] })),
         api.get('/api/orders/my-deliveries').catch(() => ({ data: [] }))
       ]);
-      setAvailableOrders(availRes.data);
-      setMyDeliveries(myRes.data);
+      setAvailableOrders(Array.isArray(availRes.data) ? availRes.data : []);
+      setMyDeliveries(Array.isArray(myRes.data) ? myRes.data : []);
     } catch (err) {
       console.error('Failed to load rider delivery queues', err);
+      setAvailableOrders([]);
+      setMyDeliveries([]);
     } finally {
       setLoading(false);
     }

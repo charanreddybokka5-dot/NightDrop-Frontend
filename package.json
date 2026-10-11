@@ -1,0 +1,10 @@
+{
+  "name": "night-drop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NightDrop - Fast Late-Night Food & Essentials Delivery",
+  "scripts": {
+    "build": "npm --prefix frontend install && npm --prefix frontend run build",
+    "start": "npm --prefix frontend run dev"
+  }
+}

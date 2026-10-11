@@ -19,21 +19,24 @@ const Stores = () => {
       setLoading(true);
       setError(null);
       const res = await api.get('/api/stores');
-      setStores(res.data);
+      setStores(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error('Failed to load stores', err);
+      setStores([]);
       setError('Unable to load stores. Please check if the backend is running.');
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredStores = stores.filter((s) => {
+  const storeList = Array.isArray(stores) ? stores : [];
+
+  const filteredStores = storeList.filter((s) => {
     const matchesFilter = filter === 'OPEN' ? s.isOpen : true;
     const matchesSearch =
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.address?.toLowerCase().includes(search.toLowerCase()) ||
-      s.description?.toLowerCase().includes(search.toLowerCase());
+      (s.name || '').toLowerCase().includes(search.toLowerCase()) ||
+      (s.address || '').toLowerCase().includes(search.toLowerCase()) ||
+      (s.description || '').toLowerCase().includes(search.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
@@ -84,7 +87,7 @@ const Stores = () => {
               filter === 'OPEN' ? 'btn-night-cyan' : 'btn-night-secondary'
             }`}
           >
-            Open Now ({stores.filter((s) => s.isOpen).length})
+            Open Now ({storeList.filter((s) => s.isOpen).length})
           </button>
         </div>
 

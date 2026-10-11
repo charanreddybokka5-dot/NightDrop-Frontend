@@ -50,12 +50,15 @@ const AdminDashboard = () => {
         api.get('/api/admin/users'),
         api.get('/api/admin/orders')
       ]);
-      setAnalytics(dashRes.data);
-      setStores(storesRes.data);
-      setUsers(usersRes.data);
-      setOrders(ordersRes.data);
+      setAnalytics(dashRes.data || null);
+      setStores(Array.isArray(storesRes.data) ? storesRes.data : []);
+      setUsers(Array.isArray(usersRes.data) ? usersRes.data : []);
+      setOrders(Array.isArray(ordersRes.data) ? ordersRes.data : []);
     } catch (err) {
       console.error('Failed to load admin console data', err);
+      setStores([]);
+      setUsers([]);
+      setOrders([]);
       setError('Unable to load platform administration analytics.');
     } finally {
       setLoading(false);
